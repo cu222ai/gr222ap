@@ -1,0 +1,22 @@
+<input type="text" id="newTodo" />
+
+<input type="button" id="button" value="Add"/>
+
+<select id="select">
+    <option value="critical">Critical</option>
+    <option value="important">Important</option>
+    <option value="cool">Cool</option>
+    <option value="nm">Nm</option>
+</select>
+       
+<div id="todoDiv"></div>
+
+    <ul>
+    <% collection.each(function( model ){ %>
+        <li class="liList">
+            <p class="<%= model.get("status") %>"><%= model.get("title") %></p>
+            <input type="button" value="Done?" id="<%= model.get("id") %>" class="done"/>
+        </li>
+    <% }); %>
+    </ul>
+</div>
