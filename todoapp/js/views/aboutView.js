@@ -9,6 +9,7 @@
 
         render: function () {
 
+            $('#msg').empty();
             this.$el.empty();
             this.$el.html(this.template);
         }
