@@ -128,3 +128,16 @@ a
     background-color:#FFFF66;
     float:left;
     }
+    
+#msg
+{
+    margin-top:25px;
+    }
+.error 
+{
+    color:#FF0000;
+    }
+.message
+{
+    color:Green;
+    }

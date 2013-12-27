@@ -29,8 +29,20 @@ define(['backbone', 'underscore', 'todocollection', 'text!templates/todo-templat
 
         create: function () {
 
-            this.Todos.create({ title: this.$el.find("#newTodo").val(), status: this.$el.find("#select").val() });
-            console.log(this.Todos.models);
+            //Hämtar strängen från textfältet.
+            var str = this.$el.find("#newTodo").val();
+
+            //Ser till att strängen inte är tom.
+            if (str != "") {
+                //Lägger till ny todo.
+                this.Todos.create({ title: str, status: this.$el.find("#select").val() });
+                $('#msg').attr("class", "message");
+                $('#msg').html("New Todo added.");
+            }
+            else {
+                $('#msg').attr("class", "error");
+                $('#msg').html("You must specify a Todo.");
+            }
 
             //Renderar ut på nytt efter att man lagt till ett nytt objekt.
             this.render();
@@ -46,7 +58,11 @@ define(['backbone', 'underscore', 'todocollection', 'text!templates/todo-templat
             //loopar igenom collection och tar bort en modell.
             this.Todos.each(function (model) {
                 if (model.id == buttonId) {
-                    model.destroy();
+
+                   var todo = model.attributes.title;
+                   model.destroy();
+                   $('#msg').attr("class", "message");
+                   $('#msg').html(todo + " was removed.");
                 }
             })
 
