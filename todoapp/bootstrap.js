@@ -37,9 +37,6 @@ require.config({
         },
         "localstorage": {
             deps: ["backbone"]
-        },
-        "brocco": {
-            deps: ["showdown", "jump-to", "html-and-css"]
         }
     }
 });

@@ -11,11 +11,12 @@
    
 <div id="todoDiv"></div>
 
-    <ul>
+    <ul id="todoList">
     <% collection.each(function( model ){ %>
         <li class="liList">
             <p class="<%= model.get("status") %>"><%= model.get("title") %></p>
             <input type="button" value="Done?" id="<%= model.get("id") %>" class="done"/>
+            <input type="button" value="Edit" id="<%= model.get("id") %>edit" class="edit"/>
         </li>
     <% }); %>
     </ul>
