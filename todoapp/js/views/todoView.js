@@ -39,12 +39,10 @@ define(['backbone', 'underscore', 'todocollection', 'text!templates/todo-templat
                 //Lägger till ny todo.
                 //Fixa så man inte kan skriva > <
                 this.Todos.create({ title: str, status: this.$el.find("#select").val() });
-                $('#msg').attr("class", "message");
-                $('#msg').html("New Todo added.");
+                this.messages(3);
             }
             else {
-                $('#msg').attr("class", "error");
-                $('#msg').html("You must specify a Todo.");
+                this.messages(1);
             }
 
             //Renderar ut på nytt efter att man lagt till ett nytt objekt.
@@ -62,17 +60,20 @@ define(['backbone', 'underscore', 'todocollection', 'text!templates/todo-templat
             this.Todos.each(function (model) {
                 if (model.id + addedToButtonId == o.target.id) {
                     var parentElement = o.target.parentElement;
-                    $(o.target.parentElement).empty();
-                    $(parentElement).append("<input type='text' id='" + model.id + "'/>");
+                    $(parentElement).empty();
+                    //Har in hunnit göra ett template för detta.
+                    $(parentElement).append("<input type='text' value='" + model.attributes.title + "'id='" + model.id + "'/>");
                     $(parentElement).append("<input type='button' class='confirmEdit' value='Confirm Edit' id=" + model.id + " />");
                 }
             })
         },
 
+        //Funktion som sätter det nya värdet till en todo vid edit.
         edit: function (o) {
             this.Todos.get({ id: o.target.id }).set({ title: $(o.target).parent().find("input[type=text]").val() });
             this.Todos.get({ id: o.target.id }).save();
             this.render();
+            this.messages(4);
         },
 
         remove: function (o) {
@@ -83,34 +84,39 @@ define(['backbone', 'underscore', 'todocollection', 'text!templates/todo-templat
             this.Todos.each(function (model) {
                 if (model.id == o.target.id) {
 
-                    var todo = model.attributes.title;
+                    var title = model.attributes.title;
                     model.destroy();
+                    that.messages(2, title);
                 }
             })
 
             this.render();
+        },
+
+        //Metod som skriver ut meddelanden.
+        messages: function (index, data) {
+
+            switch (index) {
+                case 1:
+                    $('#msg').attr("class", "error");
+                    $('#msg').html("You must specify a Todo.");
+                    break;
+                case 2:
+                    $('#msg').attr("class", "message");
+                    $('#msg').html(data + " was removed.");
+                    break;
+                case 3:
+                    $('#msg').attr("class", "message");
+                    $('#msg').html("New Todo added.");
+                    break;
+                case 4:
+                    $('#msg').attr("class", "message");
+                    $('#msg').html("Todo was edited.");
+                    break;
+                default:
+                    break;
+
+            }
         }
-
-//        messages: function () {
-
-//            switch (index) {
-//                case 1:
-//                    $('#msg').attr("class", "error");
-//                    $('#msg').html("You must specify a Todo.");
-//                    break;
-//                case 2:
-//                    $('#msg').attr("class", "message");
-//                    $('#msg').html(todo + " was removed.");
-//                    break;
-//                case 3:
-//                    $('#msg').attr("class", "message");
-//                    $('#msg').html("New Todo added.");
-
-//                    break;
-//                default:
-//                    break;
-
-//            }
-//        }
     });
 });

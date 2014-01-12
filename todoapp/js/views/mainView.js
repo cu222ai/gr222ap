@@ -1,5 +1,7 @@
-define(['backbone', 'headerview', 'navview', 'footview'], function (Backbone, HeadView, NavView, FootView) {
+define(['backbone', 'headerview', 'navview', 'footview', 'text!templates/main-template.html'], function (Backbone, HeadView, NavView, FootView, MainTemplate) {
     return Backbone.View.extend({
+
+        template: _.template(MainTemplate),
 
         initialize: function () {
             this.render();
@@ -8,6 +10,9 @@ define(['backbone', 'headerview', 'navview', 'footview'], function (Backbone, He
 
         render: function () {
 
+            //el = body   
+            //lägger på maintemplate header, content, nav, footer
+            this.$el.append(this.template());
             //vyer
             var headView = new HeadView({ el: $('header') }),
             navView = new NavView({ el: $('nav') }),
