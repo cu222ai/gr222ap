@@ -10,15 +10,17 @@
         },
 
         initialize: function () {
-            new MainView({ el: $('body')});
+            this.MainView = new MainView({ el: $('#container')});
+            this.AboutView = new AboutView({ el: $('#content') });
+            this.TodoView = new TodoView({ el: $('#content') });
         },
 
         todoRoute: function () {
-            new TodoView({ el: $('#content') });
+            this.TodoView.render();
         },
 
         aboutRoute: function () {
-            new AboutView({ el: $('#content') });
+            this.AboutView.render();
         },
 
     });

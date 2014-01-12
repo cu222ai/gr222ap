@@ -37,11 +37,11 @@ require.config({
         },
         "localstorage": {
             deps: ["backbone"]
-        },
-        "brocco": {
-            deps: ["showdown", "jump-to", "html-and-css"]
         }
     }
 });
 
-require(['js/main'], function(Main) { Main.start(); });
+require(['backbone', 'router'], function (Backbone, Router) {
+    new Router();
+    Backbone.history.start();
+});

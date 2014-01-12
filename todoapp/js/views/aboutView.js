@@ -4,7 +4,7 @@
         template: _.template(AboutTemplate, {}),
 
         initialize: function () {
-            this.render();
+
         },
 
         render: function () {
