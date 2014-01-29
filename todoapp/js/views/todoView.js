@@ -35,7 +35,7 @@ define(['backbone', 'underscore', 'todocollection', 'text!templates/todo-templat
             var str = this.$el.find("#newTodo").val();
 
             //Ser till att strängen inte är tom.
-            if (str != "") {
+            if (str.length > 1 && !str.match('[~`^<>]')) {
                 //Lägger till ny todo.
                 //Fixa så man inte kan skriva > <
                 this.Todos.create({ title: str, status: this.$el.find("#select").val() });
@@ -62,7 +62,7 @@ define(['backbone', 'underscore', 'todocollection', 'text!templates/todo-templat
                     var parentElement = o.target.parentElement;
                     $(parentElement).empty();
                     //Har in hunnit göra ett template för detta.
-                    $(parentElement).append("<input type='text' value='" + model.attributes.title + "'id='" + model.id + "'/>");
+                    $(parentElement).append("<input type='text' value='" + model.attributes.title + "'id='" + model.id + "' class='edit_input'/>");
                     $(parentElement).append("<input type='button' class='confirmEdit' value='Confirm Edit' id=" + model.id + " />");
                 }
             })
@@ -70,10 +70,16 @@ define(['backbone', 'underscore', 'todocollection', 'text!templates/todo-templat
 
         //Funktion som sätter det nya värdet till en todo vid edit.
         edit: function (o) {
-            this.Todos.get({ id: o.target.id }).set({ title: $(o.target).parent().find("input[type=text]").val() });
+            var str = this.$el.find(".edit_input").val();
+           this.Todos.get({ id: o.target.id }).set({ title: $(o.target).parent().find("input[type=text]").val() });
+           if (str.length > 1 && !str.match('[~`^<>]')) {
             this.Todos.get({ id: o.target.id }).save();
             this.render();
             this.messages(4);
+        }
+        else{
+            this.messages(1);
+        }
         },
 
         remove: function (o) {
@@ -99,7 +105,7 @@ define(['backbone', 'underscore', 'todocollection', 'text!templates/todo-templat
             switch (index) {
                 case 1:
                     $('#msg').attr("class", "error");
-                    $('#msg').html("You must specify a Todo.");
+                    $('#msg').html("You must specify a todo with atleast one, and no, illegal characters.");
                     break;
                 case 2:
                     $('#msg').attr("class", "message");
